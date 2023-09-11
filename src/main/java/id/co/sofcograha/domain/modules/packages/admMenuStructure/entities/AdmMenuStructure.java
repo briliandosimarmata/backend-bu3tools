@@ -17,7 +17,7 @@ public class AdmMenuStructure implements Serializable {
 	@Id
 	@Column(name = "id")
 	private String id;
-	
+
 	@Column(name = "menu_id", unique = true)
 	private String menuId;
 
@@ -35,19 +35,19 @@ public class AdmMenuStructure implements Serializable {
 
 	@Column(name = "flag_b2b_principal")
 	private String flagB2bPrincipal;
-	
+
 	@Column(name = "version")
 	private Long version;
-	
+
 	@Column(name = "user_create")
 	private String userCreate;
-	
+
 	@Column(name = "creation_time")
 	private Date creationTime;
-	
+
 	@Column(name = "user_modify")
 	private String userModify;
-	
+
 	@Column(name = "modification_time")
 	private Date modificationTime;
 

@@ -17,7 +17,7 @@ public class SgTempMenuStructureSettingsId implements Serializable {
 	private String menuId;
 
 	private String menuSequence;
-	
+
 	private String sessionId;
 
 	public SgTempMenuStructureSettingsId() {
@@ -30,7 +30,5 @@ public class SgTempMenuStructureSettingsId implements Serializable {
 		this.menuSequence = menuSequence;
 		this.sessionId = sessionId;
 	}
-	
-	
 
 }

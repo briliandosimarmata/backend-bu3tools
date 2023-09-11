@@ -14,7 +14,7 @@ import id.co.sofcograha.domain.responses.HttpCustomResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-	
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	public HttpCustomResponse handleException(HttpServletRequest request, Exception e) {

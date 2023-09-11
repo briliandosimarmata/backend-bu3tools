@@ -17,7 +17,31 @@ import lombok.Setter;
 @JsonInclude(Include.NON_EMPTY)
 @Getter
 @Setter
-public class MstMenuStructureDto extends MenuStructureDto{
+public class MstMenuStructureDto extends MenuStructureDto {
+
+	public static List<MstMenuStructureDto> fromEntities(List<MstMenuStructure> entities) {
+		List<MstMenuStructureDto> dtos = new ArrayList<>();
+		for (MstMenuStructure entity : entities) {
+			dtos.add(fromEntity(entity));
+		}
+
+		return dtos;
+	}
+
+	public static MstMenuStructureDto fromEntity(MstMenuStructure entity) {
+		MstMenuStructureDto dto = new MstMenuStructureDto();
+		dto.menuId = entity.getMenuStructureId().getMenuId();
+		dto.menuSequence = entity.getMenuStructureId().getMenuSequence();
+		dto.menuDesc = entity.getMenuDesc();
+		dto.modulId = entity.getModulId();
+		dto.menuSortNumber = entity.getMenuSortNumber();
+		dto.flagB2bPrincipal = entity.getFlagB2bPrincipal();
+		dto.keyinDate = entity.getKeyinDate();
+		dto.keyinTime = entity.getKeyinTime();
+		dto.keyinUser = entity.getKeyinUser();
+		dto.version = entity.getVersion();
+		return dto;
+	}
 
 	private Integer menuSortNumber;
 
@@ -36,29 +60,5 @@ public class MstMenuStructureDto extends MenuStructureDto{
 		MstMenuStructure entity = new MstMenuStructure(entityId, menuDesc, modulId, menuSortNumber, flagB2bPrincipal,
 				keyinDate, keyinTime, keyinUser, version);
 		return entity;
-	}
-
-	public static MstMenuStructureDto fromEntity(MstMenuStructure entity) {
-		MstMenuStructureDto dto = new MstMenuStructureDto();
-		dto.menuId = entity.getMenuStructureId().getMenuId();
-		dto.menuSequence = entity.getMenuStructureId().getMenuSequence();
-		dto.menuDesc = entity.getMenuDesc();
-		dto.modulId = entity.getModulId();
-		dto.menuSortNumber = entity.getMenuSortNumber();
-		dto.flagB2bPrincipal = entity.getFlagB2bPrincipal();
-		dto.keyinDate = entity.getKeyinDate();
-		dto.keyinTime = entity.getKeyinTime();
-		dto.keyinUser = entity.getKeyinUser();
-		dto.version = entity.getVersion();
-		return dto;
-	}
-	
-	public static List<MstMenuStructureDto> fromEntities(List<MstMenuStructure> entities) {
-		List<MstMenuStructureDto> dtos = new ArrayList<>();
-		for (MstMenuStructure entity : entities) {
-			dtos.add(fromEntity(entity));
-		}
-		
-		return dtos;
 	}
 }

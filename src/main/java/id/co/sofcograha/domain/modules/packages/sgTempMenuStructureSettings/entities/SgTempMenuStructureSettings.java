@@ -13,13 +13,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SgTempMenuStructureSettings {
-	
+
 	@EmbeddedId
 	private SgTempMenuStructureSettingsId sgTempMenuStructureSettingsId;
-	
+
 	@Column(name = "icon_class")
 	private String iconClass;
-	
+
 	@Column(name = "routing_path")
 	private String routingPath;
 
@@ -34,5 +34,5 @@ public class SgTempMenuStructureSettings {
 		this.iconClass = iconClass;
 		this.routingPath = routingPath;
 	}
-	
+
 }

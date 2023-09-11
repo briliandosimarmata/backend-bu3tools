@@ -13,14 +13,14 @@ public class SgTempMenuStructureSettingsService {
 
 	@Autowired
 	SgTempMenuStructureSettingsRepository repository;
-	
-	@Transactional
-	public SgTempMenuStructureSettings save(SgTempMenuStructureSettings entity) {
-		return repository.saveAndFlush(entity);
-	}
-	
+
 	@Transactional
 	public void deleteAllBySessionId(String sessionId) {
 		repository.deleteAllBySessionId(sessionId);
+	}
+
+	@Transactional
+	public SgTempMenuStructureSettings save(SgTempMenuStructureSettings entity) {
+		return repository.saveAndFlush(entity);
 	}
 }

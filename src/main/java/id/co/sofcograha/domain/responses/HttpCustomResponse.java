@@ -14,12 +14,12 @@ import lombok.Setter;
 public class HttpCustomResponse {
 	private Object data;
 	private Map<String, String> message;
-	
+
 	public HttpCustomResponse(Object data) {
 		super();
 		this.data = data;
 	}
-	
+
 	public HttpCustomResponse(Object data, Map<String, String> message) {
 		super();
 		this.data = data;

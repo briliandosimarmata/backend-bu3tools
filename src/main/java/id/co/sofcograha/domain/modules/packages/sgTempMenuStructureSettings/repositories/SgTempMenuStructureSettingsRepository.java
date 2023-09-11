@@ -21,10 +21,8 @@ public class SgTempMenuStructureSettingsRepository
 	}
 
 	public void deleteAllBySessionId(String sessionId) {
-		em.createNativeQuery("delete from sg_temp_menu_structure_settings \n" 
-							+ "		where session_id = :sessionId ")
-				.setParameter("sessionId", sessionId)
-				.executeUpdate();
+		em.createNativeQuery("delete from sg_temp_menu_structure_settings \n" + "		where session_id = :sessionId ")
+				.setParameter("sessionId", sessionId).executeUpdate();
 	}
 
 }

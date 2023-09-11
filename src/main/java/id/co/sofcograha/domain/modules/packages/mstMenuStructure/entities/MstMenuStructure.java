@@ -14,13 +14,13 @@ import lombok.Setter;
 @Table(name = "mst_menu_structure")
 @Getter
 @Setter
-public class MstMenuStructure implements Serializable{
-	
+public class MstMenuStructure implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private MstMenuStructureId menuStructureId;
-	
+
 	@Column(name = "menu_desc")
 	private String menuDesc;
 
@@ -29,7 +29,7 @@ public class MstMenuStructure implements Serializable{
 
 	@Column(name = "menu_sort_number")
 	private Integer menuSortNumber;
-	
+
 	@Column(name = "flag_b2b_principal")
 	private String flagB2bPrincipal;
 
@@ -41,10 +41,10 @@ public class MstMenuStructure implements Serializable{
 
 	@Column(name = "keyin_user")
 	private String keyinUser;
-	
+
 	@Column(name = "version")
 	private Long version;
-	
+
 	public MstMenuStructure() {
 		super();
 	}

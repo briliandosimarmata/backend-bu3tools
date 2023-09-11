@@ -1,9 +1,9 @@
 package id.co.sofcograha.domain.securities;
 
+
 import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,16 +18,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfiguration {
 
 	@Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    	return http
-                .csrf()
-                .disable()
-                .cors(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
-                .build();
-    }
-	
-	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("*"));
@@ -36,6 +26,11 @@ public class SecurityConfiguration {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
+	}
+
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.csrf().disable().cors(Customizer.withDefaults()).httpBasic(Customizer.withDefaults()).build();
 	}
 
 }

@@ -18,32 +18,27 @@ import id.co.sofcograha.domain.responses.HttpCustomResponse;
 @RestController
 @RequestMapping(value = "adm-menu-structure")
 public class AdmMenuStructureController {
-	
-	@Autowired AdmMenuStructureService service;
-	
+
+	@Autowired
+	AdmMenuStructureService service;
+
+	@PostMapping(value = "/file")
+	public HttpCustomResponse createMenuInfoTSFile(@RequestBody List<MenuStructureDto> menuStructureDtos,
+			HttpServletRequest httpServletRequest) throws Exception {
+
+		byte[] file = service.createMenuInfoTSFile(menuStructureDtos, httpServletRequest.getHeader("sessionId"));
+
+		return new HttpCustomResponse(file);
+	}
+
 	@PostMapping
 	public HttpCustomResponse findAllParentAndChildMenuWithSettings(
-			@RequestBody List<MenuStructureDto> menuStructureDtos, 
-			HttpServletRequest httpServletRequest) {
-		
-		Map<String, List<MenuStructureDto>> result = 
-				service.findAllParentAndChildMenuWithSettings(
-						menuStructureDtos,
-						httpServletRequest.getHeader("sessionId"));
-		
-		return new HttpCustomResponse(result);
-	}
-	
-	@PostMapping(value = "/file")
-	public HttpCustomResponse createMenuInfoTSFile(
-			@RequestBody List<MenuStructureDto> menuStructureDtos,
-			HttpServletRequest httpServletRequest) throws Exception {
-		
-		byte[] file = service.createMenuInfoTSFile(
-				menuStructureDtos,
+			@RequestBody List<MenuStructureDto> menuStructureDtos, HttpServletRequest httpServletRequest) {
+
+		Map<String, List<MenuStructureDto>> result = service.findAllParentAndChildMenuWithSettings(menuStructureDtos,
 				httpServletRequest.getHeader("sessionId"));
-		
-		return new HttpCustomResponse(file);
+
+		return new HttpCustomResponse(result);
 	}
 
 }

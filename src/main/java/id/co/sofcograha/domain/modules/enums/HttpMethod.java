@@ -1,5 +1,5 @@
 package id.co.sofcograha.domain.modules.enums;
 
-public enum ModulType {
-	M, P
+public enum HttpMethod {
+	GET, POST, PUT, DELETE
 }
