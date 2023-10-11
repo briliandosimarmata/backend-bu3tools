@@ -31,18 +31,21 @@ public class AdmMenuStructureRepository extends SimpleJpaRepository<AdmMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select a.id, a.menu_id, a.menu_sequence, \n"
+					+ "		CASE WHEN c.variable IS NOT NULL  then c.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(b.modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_desc, b.id as modul_id , c.icon_class, c.routing_path \n"
 					+ "	from adm_menu_structure a \n"
 					+ "				inner join adm_modul b \n"
 					+ "						on b.id = a.id_adm_modul  \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) c \n"
 					+ "						on c.menu_id = a.menu_id \n"
 					+ "						and c.menu_sequence = a.menu_sequence \n"
 					+ "	where a.menu_id = :menuIdMenuUtama \n"
+					+ "			and a.menu_sequence != '00' \n"
 					+ "	and b.modul_id not in (:modulIdMenuUtama, :modulIdMenuMaster) \n"
 					+ "	and b.modul_type = :modulType \n"
 					+ "	order by concat(a.menu_id, a.menu_sequence)", 
@@ -64,18 +67,21 @@ public class AdmMenuStructureRepository extends SimpleJpaRepository<AdmMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select a.id, a.menu_id, a.menu_sequence, \n"
+					+ "		CASE WHEN c.variable IS NOT NULL  then c.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(b.modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_desc, b.id as modul_id, c.icon_class, c.routing_path \n"
 					+ "	from adm_menu_structure a \n"
 					+ "				inner join adm_modul b \n"
 					+ "						on b.id = a.id_adm_modul  \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) c \n"
 					+ "						on c.menu_id = a.menu_id \n"
 					+ "						and c.menu_sequence = a.menu_sequence \n"
 					+ "	where a.menu_id like :menuIdMenuUtama \n"
+					+ "			and a.menu_sequence != '00' \n"
 					+ "	and b.modul_id not in (:modulIdMenuUtama, :modulIdMenuMaster) \n"
 					+ "	and b.modul_type = :modulType \n"
 					+ "	order by concat(a.menu_id, a.menu_sequence)", 
@@ -97,18 +103,21 @@ public class AdmMenuStructureRepository extends SimpleJpaRepository<AdmMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select a.id, a.menu_id, \n"
+					+ "		CASE WHEN b.variable IS NOT NULL  then b.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(c.modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_sequence, a.menu_desc, a.id_adm_modul as modul_id, \n"
 					+ "		b.icon_class, b.routing_path \n"
 					+ "		from adm_menu_structure a \n"
 					+ "				inner join adm_modul c on c.id = a.id_adm_modul \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) b \n"
 					+ "						on b.menu_id = a.menu_id \n"
 					+ "						and b.menu_sequence = a.menu_sequence \n"
 					+ "		where a.menu_id like :menuIdMenuUtama \n"
+					+ "			and a.menu_sequence != '00' \n"
 					+ "			and c.modul_id not in(:modulIdMenuUtama, :modulIdMenuMaster) \n"
 					+ "	    order by concat(a.menu_id, a.menu_sequence)", 
 					MenuStructureDto.class);

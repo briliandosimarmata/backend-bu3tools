@@ -42,11 +42,13 @@ public class AdmMenuStructureService {
 			menuStructureSettings.setSgTempMenuStructureSettingsId(menuStructureSettingsId);
 			menuStructureSettings.setIconClass(menuStructureDto.getIconClass());
 			menuStructureSettings.setRoutingPath(menuStructureDto.getRoutingPath());
+			menuStructureSettings.setVariable(menuStructureDto.getVariable());
 			
 			sgTempMenuStructureSettingsService.save(menuStructureSettings);
 		}
 		
-		menus.put("parentMenuStructures", repository.findAllParentMenuWithSettings(sessionId));
+		List<MenuStructureDto> parentMenuStructures = (List<MenuStructureDto>) repository.findAllParentMenuWithSettings(sessionId);
+		menus.put("parentMenuStructures", parentMenuStructures);
 		menus.put("childMenuStructures", repository.findAllChildMenuWithSettings(sessionId));
 		
 		sgTempMenuStructureSettingsService.deleteAllBySessionId(sessionId);
@@ -74,6 +76,8 @@ public class AdmMenuStructureService {
 			menuStructureSettings.setSgTempMenuStructureSettingsId(menuStructureSettingsId);
 			menuStructureSettings.setIconClass(menuStructureDto.getIconClass());
 			menuStructureSettings.setRoutingPath(menuStructureDto.getRoutingPath());
+			menuStructureSettings.setVariable(menuStructureDto.getVariable());
+			System.out.println(menuStructureDto.getVariable());
 			
 			sgTempMenuStructureSettingsService.save(menuStructureSettings);
 		}

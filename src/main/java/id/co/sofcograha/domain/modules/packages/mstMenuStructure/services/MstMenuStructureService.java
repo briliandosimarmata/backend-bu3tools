@@ -41,6 +41,7 @@ public class MstMenuStructureService {
 			menuStructureSettings.setSgTempMenuStructureSettingsId(menuStructureSettingsId);
 			menuStructureSettings.setIconClass(menuStructureDto.getIconClass());
 			menuStructureSettings.setRoutingPath(menuStructureDto.getRoutingPath());
+			menuStructureSettings.setVariable(menuStructureDto.getVariable());
 			
 			sgTempMenuStructureSettingsService.save(menuStructureSettings);
 		}
@@ -73,6 +74,7 @@ public class MstMenuStructureService {
 			menuStructureSettings.setSgTempMenuStructureSettingsId(menuStructureSettingsId);
 			menuStructureSettings.setIconClass(menuStructureDto.getIconClass());
 			menuStructureSettings.setRoutingPath(menuStructureDto.getRoutingPath());
+			menuStructureSettings.setVariable(menuStructureDto.getVariable());
 			
 			sgTempMenuStructureSettingsService.save(menuStructureSettings);
 		}

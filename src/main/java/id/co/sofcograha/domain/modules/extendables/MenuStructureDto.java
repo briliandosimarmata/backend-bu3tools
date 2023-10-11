@@ -32,4 +32,6 @@ public class MenuStructureDto {
 	protected String iconClass;
 	
 	protected String routingPath;
+	
+	protected String variable;
 }

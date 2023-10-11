@@ -40,32 +40,27 @@ public class MenuStructureUtils {
 		
 		StringBuilder sbScript = new StringBuilder();
 		sbScript.append(MENU_MASTER_TS);
+		for (MenuStructureDto menuStructureDto : menuStructureDtos) {
+			sbScript.append("\n");
+			sbScript.append(
+					" export const " + menuStructureDto.getVariable() +": MenuInfo = { \n"
+							+ "  menuId: "+ menuStructureDto.getMenuId() +",\n");
+			if(menuStructureDto.getMenuSequence() != null)
+				sbScript.append("  menuSequence: "+ menuStructureDto.getMenuSequence() +",\n");
+			if( menuStructureDto.getIconClass() != null)
+				sbScript.append("  icon: "+ menuStructureDto.getIconClass() +",\n");
+			sbScript.append("};");
+		}
 		sbScript.append("\n\n");
 		sbScript.append(
 				"export const MENU_INFO_LIST: MenuInfo[] = [\n"
 				+ "  MENU_INFO_MASTER,");
 		
+		
 		for (MenuStructureDto menuStructureDto : menuStructureDtos) {
 			sbScript.append("\n");
-			sbScript.append("  {\n");
-			sbScript.append("    menuId: '" + menuStructureDto.getMenuId() + "',\n");
-			sbScript.append("    menuSequence: '" + menuStructureDto.getMenuSequence() + "',\n");
-			
-			if(menuStructureDto.getIconClass() != null) {
-				if(menuStructureDto.getIconClass().length() > 0 
-						&& !menuStructureDto.getIconClass().trim().contentEquals("")) {
-					sbScript.append("    icon: '" + menuStructureDto.getIconClass() + "',\n");
-				}
-			}
-			
-			if(menuStructureDto.getRoutingPath() != null) {
-				if(menuStructureDto.getRoutingPath().length() > 0 
-						&& !menuStructureDto.getRoutingPath().trim().contentEquals("")) {
-					sbScript.append("    url: '" + menuStructureDto.getRoutingPath() + "',\n");
-				}
-			}
-			
-			sbScript.append("  },");
+			sbScript.append("  "+menuStructureDto.getVariable());
+			sbScript.append(",");
 		}
 		
 		sbScript.append("\n];");

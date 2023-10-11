@@ -32,12 +32,14 @@ public class MstMenuStructureRepository extends SimpleJpaRepository<MstMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select gen_random_uuid() as id, a.menu_id, a.menu_sequence, \n"
+					+ "		CASE WHEN c.variable IS NOT NULL  then c.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_desc, a.modul_id, c.icon_class, c.routing_path \n"
 					+ "	from mst_menu_structure a \n"
 					+ "				inner join mst_modul b \n"
 					+ "						on b.modul_id = a.modul_id \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) c \n"
@@ -65,12 +67,14 @@ public class MstMenuStructureRepository extends SimpleJpaRepository<MstMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select gen_random_uuid() as id, a.menu_id, a.menu_sequence, \n"
+					+ "		CASE WHEN c.variable IS NOT NULL  then c.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_desc, a.modul_id, c.icon_class, c.routing_path \n"
 					+ "	from mst_menu_structure a \n"
 					+ "				inner join mst_modul b \n"
 					+ "						on b.modul_id = a.modul_id \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) c \n"
@@ -98,16 +102,20 @@ public class MstMenuStructureRepository extends SimpleJpaRepository<MstMenuStruc
 		try {
 			Query query = em.createNativeQuery(
 					"select gen_random_uuid() as id, a.menu_id, \n"
+					+ "		CASE WHEN b.variable IS NOT NULL  then b.variable else "
+					+ "		upper(regexp_replace(regexp_replace(trim(modul_name),'[%+()\\/]','','g'),'[\\s+-]+','_','g')) END as variable, \n"
 					+ "		a.menu_sequence, a.menu_desc, a.modul_id, \n"
 					+ "		b.icon_class, b.routing_path \n"
 					+ "		from mst_menu_structure a \n"
 					+ "				left join (\n"
-					+ "								select menu_id, menu_sequence, icon_class, routing_path \n"
+					+ "								select menu_id, menu_sequence, icon_class, routing_path, variable \n"
 					+ "									from sg_temp_menu_structure_settings \n"
 					+ "									where session_id = :sessionId \n"
 					+ "						  ) b \n"
 					+ "						on b.menu_id = a.menu_id \n"
 					+ "						and b.menu_sequence = a.menu_sequence \n"
+					+ "				inner join mst_modul c \n"
+					+ "						on c.modul_id = a.modul_id \n"
 					+ "		where a.menu_id like :menuIdMenuUtama \n"
 					+ "			and a.modul_id not in(:modulIdMenuUtama, :modulIdMenuMaster) \n"
 					+ "	    order by concat(a.menu_id, a.menu_sequence)", 

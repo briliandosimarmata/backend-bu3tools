@@ -22,17 +22,21 @@ public class SgTempMenuStructureSettings {
 	
 	@Column(name = "routing_path")
 	private String routingPath;
+	
+	@Column(name = "variable")
+	private String variable;
 
 	public SgTempMenuStructureSettings() {
 		super();
 	}
 
 	public SgTempMenuStructureSettings(SgTempMenuStructureSettingsId sgTempMenuStructureSettingsId, String menuDesc,
-			String modulId, String iconClass, String routingPath) {
+			String modulId, String iconClass, String routingPath, String variable) {
 		super();
 		this.sgTempMenuStructureSettingsId = sgTempMenuStructureSettingsId;
 		this.iconClass = iconClass;
 		this.routingPath = routingPath;
+		this.variable = variable;
 	}
 	
 }
