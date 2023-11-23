@@ -1,9 +1,6 @@
 package id.co.sofcograha.domain.modules.packages.mstMenuStructure.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -53,38 +50,78 @@ public class MstMenuStructureService {
 		
 		return menus;
 	}
-	
+
+	public List<MenuStructureDto> getAll() {
+		return repository.getAll();
+	}
+
+	public List<MenuStructureDto> findAllMenuWithExistingSettings(
+			List<MenuStructureDto> modulUrlInfoList, List<MenuStructureDto> menuInfoList) {
+		String pModulUrlInfoList = createParamOfModulUrlInfoList(modulUrlInfoList);
+		String pMenuInfoList = createParamOfMenuInfoList(menuInfoList);
+
+		return repository.findAllMenuWithExistingSettings(pModulUrlInfoList, pMenuInfoList);
+	}
+
 	@Transactional
-	public byte[] createMenuInfoTSFile(List<MenuStructureDto> menuStructureDtos, String sessionId) throws Exception {
-		List<MenuStructureDto> completeMenuStruct = new ArrayList<>();
+	public byte[] createMenuInfoTSFile(
+			List<MenuStructureDto> modulUrlInfoList, List<MenuStructureDto> menuInfoList) {
+		String pModulUrlInfoList = createParamOfModulUrlInfoList(modulUrlInfoList);
+		String pMenuInfoList = createParamOfMenuInfoList(menuInfoList);
+		List<MenuStructureDto> completeMenuStruct =
+				repository.findAllMenuWithExistingSettings(
+						pModulUrlInfoList, pMenuInfoList);
 		byte[] fileBytes = null;
-		
-		sgTempMenuStructureSettingsService.deleteAllBySessionId(sessionId);
-		
-		for (MenuStructureDto menuStructureDto : menuStructureDtos) {
-			if(menuStructureDto.getMenuId().trim().isBlank() && 
-					menuStructureDto.getMenuSequence().trim().isBlank()) {
-				continue;
-			}
-			SgTempMenuStructureSettingsId menuStructureSettingsId = 
-					new SgTempMenuStructureSettingsId(menuStructureDto.getMenuId(), 
-							menuStructureDto.getMenuSequence(), sessionId);
-			
-			SgTempMenuStructureSettings menuStructureSettings = new SgTempMenuStructureSettings();
-			menuStructureSettings.setSgTempMenuStructureSettingsId(menuStructureSettingsId);
-			menuStructureSettings.setIconClass(menuStructureDto.getIconClass());
-			menuStructureSettings.setRoutingPath(menuStructureDto.getRoutingPath());
-			menuStructureSettings.setVariable(menuStructureDto.getVariable());
-			
-			sgTempMenuStructureSettingsService.save(menuStructureSettings);
+
+		try {
+			fileBytes = MenuStructureUtils.generateMenuInfoTypescript(completeMenuStruct);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		
-		completeMenuStruct = repository.findAllMenuWithSettings(sessionId);
-		
-		fileBytes = MenuStructureUtils.generateMenuInfoTypescript(completeMenuStruct);
-		
-		sgTempMenuStructureSettingsService.deleteAllBySessionId(sessionId);
-		
+
 		return fileBytes;
+	}
+
+	private String createParamOfModulUrlInfoList(List<MenuStructureDto> modulUrlInfoList) {
+		StringBuilder pModulUrlInfoList = new StringBuilder();
+		Iterator<MenuStructureDto> modulUrlInfoIterator =
+				modulUrlInfoList.iterator();
+
+		while (modulUrlInfoIterator.hasNext()) {
+			MenuStructureDto modulUrlInfo = modulUrlInfoIterator.next();
+			pModulUrlInfoList.append("(");
+			pModulUrlInfoList.append(String.format("'%s'", modulUrlInfo.getModulId()));
+			pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getRoutingPath()));
+			pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getVariable()));
+			pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getIconClass()));
+			pModulUrlInfoList.append(")");
+
+			if (modulUrlInfoIterator.hasNext()) {
+				pModulUrlInfoList.append(",");
+			}
+		}
+
+		return pModulUrlInfoList.toString();
+	}
+
+	private String createParamOfMenuInfoList(List<MenuStructureDto> menuInfoList) {
+		StringBuilder pMenuInfoList = new StringBuilder();
+		Iterator<MenuStructureDto> menuInfoIterator =
+				menuInfoList.iterator();
+
+		while (menuInfoIterator.hasNext()) {
+			MenuStructureDto menuInfo = menuInfoIterator.next();
+			pMenuInfoList.append("(");
+			pMenuInfoList.append(String.format("'%s'", menuInfo.getMenuId()));
+			pMenuInfoList.append(String.format(", '%s'", menuInfo.getMenuSequence()));
+			pMenuInfoList.append(String.format(", '%s'", menuInfo.getIconClass()));
+			pMenuInfoList.append(")");
+
+			if (menuInfoIterator.hasNext()) {
+				pMenuInfoList.append(",");
+			}
+		}
+
+		return pMenuInfoList.toString();
 	}
 }

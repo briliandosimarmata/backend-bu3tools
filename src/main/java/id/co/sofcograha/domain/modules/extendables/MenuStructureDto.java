@@ -28,6 +28,8 @@ public class MenuStructureDto {
 	protected String menuDesc;
 
 	protected String modulId;
+
+	protected String modulType;
 	
 	protected String iconClass;
 	
