@@ -95,8 +95,19 @@ public class AdmMenuStructureService {
             pModulUrlInfoList.append("(");
             pModulUrlInfoList.append(String.format("'%s'", modulUrlInfo.getModulId()));
             pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getRoutingPath()));
-            pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getVariable()));
-            pModulUrlInfoList.append(String.format(", '%s'", modulUrlInfo.getIconClass()));
+
+            String pVariable = "null";
+            if (modulUrlInfo.getVariable() != null && !modulUrlInfo.getVariable().isBlank()) {
+                pVariable = String.format("'%s'", modulUrlInfo.getVariable());
+            }
+            pModulUrlInfoList.append(String.format(", %s", pVariable));
+
+            String pIconClass = "null";
+            if (modulUrlInfo.getIconClass() != null && !modulUrlInfo.getIconClass().isBlank()) {
+                pIconClass = String.format("'%s'", modulUrlInfo.getIconClass());
+            }
+            pModulUrlInfoList.append(String.format(", %s", pIconClass));
+
             pModulUrlInfoList.append(")");
 
             if (modulUrlInfoIterator.hasNext()) {
@@ -117,7 +128,13 @@ public class AdmMenuStructureService {
             pMenuInfoList.append("(");
             pMenuInfoList.append(String.format("'%s'", menuInfo.getMenuId()));
             pMenuInfoList.append(String.format(", '%s'", menuInfo.getMenuSequence()));
-            pMenuInfoList.append(String.format(", '%s'", menuInfo.getIconClass()));
+
+            String pIconClass = "null";
+            if (menuInfo.getIconClass() != null && !menuInfo.getIconClass().isBlank()) {
+                pIconClass = String.format("'%s'", menuInfo.getIconClass());
+            }
+            pMenuInfoList.append(String.format(", %s", pIconClass));
+
             pMenuInfoList.append(")");
 
             if (menuInfoIterator.hasNext()) {
